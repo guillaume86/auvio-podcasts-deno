@@ -1,5 +1,5 @@
 import { ProgramPage } from "./client.ts";
-import { assert, assertEquals } from "std/assert/mod.ts";
+import { assert, assertEquals } from "@std/assert";
 import { Media } from "./types.ts";
 
 Deno.test("ProgramPage", async (ctx) => {

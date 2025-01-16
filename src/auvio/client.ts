@@ -1,5 +1,5 @@
-import { DOMParser, HTMLDocument } from "deno_dom/deno-dom-wasm.ts";
-import { Parser as JS } from "literal/mod.ts";
+import { DOMParser, HTMLDocument } from "@b-fuze/deno-dom";
+import { Parser as JS } from "@dldc/literal-parser";
 import type {
   APIResponse,
   AppConstants,
@@ -37,7 +37,7 @@ function getProgramId(programPath: string) {
   const match = programPath.match(/^\/emission\/.*?-(\d+)$/);
   if (!match) {
     throw new Error(
-      "Invalid program path, expected format: /emission/name-of-program-1234"
+      "Invalid program path, expected format: /emission/name-of-program-1234",
     );
   }
   return match[1];
@@ -101,16 +101,16 @@ export class ProgramPage {
       return this.#appConstants;
     }
     const appScriptText = await this.#getScriptContent(
-      "script[src^='/_next/static/chunks/pages/_app-']"
+      "script[src^='/_next/static/chunks/pages/_app-']",
     );
     const RTBF = JS.parse(
-      appScriptText.match(/RTBF\:\s*({.*?})\s*,/)?.[1] || "{}"
+      appScriptText.match(/RTBF\:\s*({.*?})\s*,/)?.[1] || "{}",
     ) as AppConstants["RTBF"];
     if (!RTBF.apiVersion) {
       throw new Error("Could not find RTBF.apiVersion");
     }
     const GIGYA = JS.parse(
-      appScriptText.match(/GIGYA\:\s*({.*?})\s*,/)?.[1] || "{}"
+      appScriptText.match(/GIGYA\:\s*({.*?})\s*,/)?.[1] || "{}",
     ) as AppConstants["GIGYA"];
     if (!GIGYA.apiKey) {
       throw new Error("Could not find GIGYA.apiKey");
@@ -157,7 +157,7 @@ export class ProgramPage {
         headers: {
           authorization: "Bearer " + rtbfToken,
         },
-      }
+      },
     );
 
     if (!mediaListResponse.ok) {
@@ -187,7 +187,7 @@ export class ProgramPage {
         headers: DEFAULT_HEADERS,
         body: null,
         method: "GET",
-      }
+      },
     );
 
     if (!bootstrapResponse.ok) {
@@ -198,7 +198,7 @@ export class ProgramPage {
     await bootstrapResponse.json();
 
     this.#bootstrapCookies = parseCookies(
-      bootstrapResponse.headers.getSetCookie()
+      bootstrapResponse.headers.getSetCookie(),
     );
 
     return this.#bootstrapCookies;
@@ -235,7 +235,7 @@ export class ProgramPage {
           format: "json",
         }).toString(),
         method: "POST",
-      }
+      },
     );
 
     if (!loginResponse.ok) {
@@ -274,7 +274,7 @@ export class ProgramPage {
           format: "json",
         }),
         method: "POST",
-      }
+      },
     );
 
     if (!jwtResponse.ok) {
@@ -301,7 +301,7 @@ export class ProgramPage {
           token: id_token,
           scope: "visitor",
         }),
-      }
+      },
     );
 
     if (!rtbfTokenResponse.ok) {
@@ -339,7 +339,7 @@ export class ProgramPage {
           },
         }),
         method: "POST",
-      }
+      },
     );
 
     if (!gigyaLoginResponse.ok) {
@@ -383,7 +383,7 @@ export class ProgramPage {
           authorization: "Bearer " + gigyaSessionToken,
         },
         method: "GET",
-      }
+      },
     );
 
     if (!playRes.ok) {

@@ -1,6 +1,8 @@
-import { Hono } from "hono/mod.ts";
-import { etag, serveStatic, logger } from "hono/middleware.ts";
-import type { FC } from "hono/middleware.ts";
+import { Hono } from "@hono/hono";
+import { serveStatic } from "@hono/hono/deno";
+import { etag } from "@hono/hono/etag";
+import { logger } from "@hono/hono/logger";
+import type { FC } from "@hono/hono/jsx";
 import { getProgram } from "./auvio/program.ts";
 import { buildPodcastXML } from "@/podcast.ts";
 
@@ -33,7 +35,7 @@ app.get("/", (c) => {
           </a>
         </li>
       </ul>
-    </Layout>
+    </Layout>,
   );
 });
 
@@ -55,7 +57,7 @@ app.get("/emission/:slug", async (c) => {
       <p>
         <a href={`${path}/podcast.xml`}>Podcast</a>
       </p>
-    </Layout>
+    </Layout>,
   );
 });
 
