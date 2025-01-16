@@ -1,0 +1,15 @@
+version: "3.7"
+
+services:
+  auvio-podcasts:
+    build: .
+    init: true
+    environment:
+      - NODE_ENV=production
+      - AUVIO_EMAIL=${AUVIO_EMAIL}
+      - AUVIO_PASSWORD=${AUVIO_PASSWORD}
+      - DATA_PATH=/data
+    volumes:
+      - ./data:/data
+    ports:
+      - "3000:3000"

@@ -1,0 +1,9 @@
+#**/node_modules
+#**/.vscode
+#feed_sample*.*
+
+*
+!/public
+!/src
+!/deno.json
+!/deno.lock

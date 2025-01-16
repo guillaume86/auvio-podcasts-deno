@@ -1,0 +1,24 @@
+{
+  "tasks": {
+    "dev": "deno run -A --unstable-kv --watch src/serve.ts",
+    "start": "deno run -A --unstable-kv src/serve.ts",
+    "docker:build": "docker build . -t guillaume86/auvio-podcasts",
+    "docker:start": "deno task docker:build && docker run --rm -p 3000:3000 --name auvio-podcasts guillaume86/auvio-podcasts",
+    "docker:push": "deno task docker:build && docker push guillaume86/auvio-podcasts",
+    "compose:build": "docker-compose build --no-cache",
+    "compose:start": "docker-compose up",
+    "compose:stop": "docker-compose down"
+  },
+  "imports": {
+    "@/": "./src/",
+    "std/": "https://deno.land/std@0.214.0/",
+    "hono/": "https://deno.land/x/hono@v4.0.0/",
+    "hono/jsx/jsx-runtime": "https://deno.land/x/hono@v4.0.0/jsx/jsx-runtime.ts",
+    "deno_dom/": "https://deno.land/x/deno_dom@v0.1.45/",
+    "literal/": "https://deno.land/x/literal@v3.0.4/"
+  },
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "hono/jsx"
+  }
+}
